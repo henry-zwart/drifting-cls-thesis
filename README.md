@@ -1,6 +1,6 @@
-# gliding-uva-report
+# drifting-cls-thesis
 
-A Typst template for student reports at the University of Amsterdam.
+A Typst template for Computational Science Master's theses at the University of Amsterdam.
 
 ## Dependencies
 
@@ -9,7 +9,7 @@ Using the template requires a local installation of [Typst](https://github.com/t
 Until the template is listed on the Typst template repository, you'll also need a clone of
 this repo in a place Typst can see it. The Typst team recommend:
 
-> `{data-dir}/typst/packages/local/gliding-uva-report/{version}`
+> `{data-dir}/typst/packages/local/drifting-cls-thesis/{version}`
 
 Where `{version}` is the current version as it appears in [typst.toml](typst.toml), and
 `{data-dir}` depends on your operating system:
@@ -25,7 +25,7 @@ Where `{version}` is the current version as it appears in [typst.toml](typst.tom
 cd $HOME/reports
 
 # Create the report directory
-typst init @local/gliding-uva-report:{version} {report-directory-name}
+typst init @local/drifting-cls-thesis:{version} {report-directory-name}
 ```
 
 This will create a new directory at `$HOME/reports/{report-directory-name}`, with
