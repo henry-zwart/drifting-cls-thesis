@@ -1,0 +1,16 @@
+[package]
+name = "drifting-cls-thesis"
+version = "0.1.0"
+entrypoint = "lib.typ"
+authors = ["Henry Zwart <@henry-zwart>"]
+license = "MIT"
+description = "An unofficial Masters thesis template for Computational Science students at the University of Amsterdam"
+repository = "https://github.com/henry-zwart/drifting-cls-thesis"
+keywords = ["thesis", "university", "student"]
+categories = ["thesis"]
+compiler = "0.12.0"
+
+[template]
+path = "template"
+entrypoint = "main.typ"
+thumbnail = "thumbnail.png"
