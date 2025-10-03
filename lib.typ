@@ -163,6 +163,84 @@
     #v(1fr)
   ]
 
+  pagebreak()
+}
+
+#let quotation-page(quotation) = {
+  set quote(block: true)
+  
+  v(1.2fr)
+  quote(attribution: quotation.attrib, quotes: true, emph(quotation.quote-text))
+  v(6fr)
+
+  pagebreak()
+}
+#let abstract-page(
+  title: "Your Thesis Title",
+  university-name: link("http://www.uva.nl", [UNIVERSITY OF AMSTERDAM]),
+  author: (first-name: "First name", surname: "Surname"),
+  degree: "Degree Name",
+  faculty: (name: "Faculty Name"),
+  dept: (name: "Department Name"),
+  abstract
+) = {
+  let author-display = [#author.first-name #upper(author.surname)]
+  let faculty-display = text-or-link(faculty.name, faculty.at("site", default: none))
+  let dept-display = text-or-link(dept.name, dept.at("site", default: none))
+
+  // Reduce paragraph spacing -- we want finegrained control over this on Abstract page
+  set par(spacing: 1em)
+
+  set text(size: 11pt)
+  set align(center)
+  show link: it => {
+    set text(fill: rgb("#0000FF"))
+    it
+  }
+
+  // Vertically centre page (this and closing one below)
+  v(1fr)
+
+  // "University of Amsterdam"
+  university-name
+  v(1em)
+
+  // "Abstract" (page title)
+  {
+    set text(size: 20pt)
+    emph[Abstract]
+  }
+  v(1em)
+
+  // "Group" and "Department" names
+  {
+    faculty-display
+    linebreak()
+    dept-display
+  }
+  v(1em)
+
+  // Degree name
+  degree
+  v(1em)
+
+  // Thesis title and author
+  {
+    strong(title)
+    v(0.5em)
+    [by #author-display]
+  }
+  v(2em)
+
+  // Display the actual abstract
+  set align(left)
+  set par(spacing: 2em, justify: true)
+  abstract
+
+  // Closing vertical space to vertically centre text
+  v(1fr)
+
+  pagebreak()
 }
 
 #let thesis(
@@ -171,7 +249,10 @@
   degree: "",
   group: (name: ""),
   dept: (name: ""),
+  faculty: (name: ""),
   fontsize: 11pt,
+  quotation: none,
+  abstract: none,
   body,
 ) = {
   // Page setup as in CLS LaTeX thesis template:
@@ -211,6 +292,19 @@
   declaration-of-authorship(
     author: author,
     title: title,
+  )
+
+  if quotation != none {
+    quotation-page(quotation)
+  }
+
+  abstract-page(
+    title: title,
+    author: author,
+    degree: degree,
+    faculty: faculty,
+    dept: dept,
+    abstract
   )
 
   // Header: Show (LHS) section title and (RHS) page number
