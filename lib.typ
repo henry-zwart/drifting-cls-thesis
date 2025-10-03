@@ -1,4 +1,4 @@
-#import "@preview/hydra:0.6.2": hydra
+#import "@preview/hydra:0.6.2": hydra, anchor
 
 #let latex-margins = (
   top: 0.6in,
@@ -39,10 +39,6 @@
   let dept-display = text-or-link(dept.name, dept.at("site", default: none))
 
   set align(center)
-  show link: it => {
-    set text(fill: rgb("#0000FF"))
-    it
-  }
 
   // "University of Amsterdam"
   {
@@ -125,13 +121,16 @@
   let author-name = [#author.first-name #upper(author.surname)]
   set list(marker: $square.filled.small$)
 
+  show heading: it => {
+    set text(size: 20pt)
+    set align(center)
+    it
+    v(1em)
+  }
 
+  v(0.8fr)
   [
-    #v(0.8fr)
-    #{
-      set text(size: 20pt)
-      align(center, [Declaration of Authorship])
-    }
+    = Declaration of Authorship
 
     I, #author-name, declare that this thesis, entitled '#title' and the work presented in it are my own.
     I confirm that:
@@ -193,22 +192,23 @@
 
   set text(size: 11pt)
   set align(center)
-  show link: it => {
-    set text(fill: rgb("#0000FF"))
-    it
-  }
 
   // Vertically centre page (this and closing one below)
   v(1fr)
 
   // "University of Amsterdam"
   university-name
-  v(1em)
+  v(0.85em)
 
   // "Abstract" (page title)
   {
-    set text(size: 20pt)
-    emph[Abstract]
+    show heading: it => {
+      set text(size: 20pt, weight: "regular")
+      set align(center)
+      emph(it)
+      v(0.2em)
+    }
+    [= Abstract] 
   }
   v(1em)
 
@@ -243,6 +243,81 @@
   pagebreak()
 }
 
+#let acknowledgements-page(acknowledgements) = {
+  // Defaults
+  set text(size: 11pt)
+  set align(left)
+  set par(justify: true)
+
+  // Page title
+  {
+    show heading: it => {
+      set text(size: 20pt, weight: "regular")
+      set align(center)
+      emph(it)
+      v(1em)
+      //v(0.2em)
+    }
+    // set align(center)
+    // set text(size: 20pt)
+    [= Acknowledgements]  
+  }
+
+  acknowledgements
+  
+  pagebreak()
+}
+
+// TODO: Link colours, entry spacing
+#let main-contents-page() = {
+  // Default spacing
+  show outline.entry.where(level: 1): set block(above: 1.75em) 
+
+  // First make outline for non-index frontmatter
+  {
+    show outline.entry.where(
+      level: 1
+    ): set block(below: 2.5em)
+
+    set outline.entry(fill: none)
+
+    outline(
+      title: [Contents],
+      target: selector(heading).before(<index-start>)
+    )
+  }
+
+  
+  // Then for index frontmatter
+  {
+    set outline.entry(fill: none)
+    outline(
+      title: none,
+      target: selector(heading).after(<index-start>).and(selector(heading).before(<thesis-start>))
+    )
+  }
+  v(2em)
+  
+  // Then for the actual thesis 
+  outline(
+    title: none,
+    target: selector(heading).after(<thesis-start>).and(selector(heading).before(<bibliography-start>))
+  )
+  v(2em)
+
+  // Finally, include bibliography
+  {
+    set outline.entry(fill: none)
+    outline(
+      title: none,
+      target: selector(heading).after(<bibliography-start>)
+    )
+  }
+ 
+  pagebreak()
+  
+}
+
 #let thesis(
   title: "", 
   author: (first-name: "", surname: ""),
@@ -250,9 +325,14 @@
   group: (name: ""),
   dept: (name: ""),
   faculty: (name: ""),
-  fontsize: 11pt,
   quotation: none,
   abstract: none,
+  acknowledgements: none,
+  abbreviations: none,
+  fontsize: 11pt,
+  font: "New Computer Modern",
+  rawfont: "New Computer Modern Mono",
+  references: none,
   body,
 ) = {
   // Page setup as in CLS LaTeX thesis template:
@@ -274,6 +354,16 @@
     footer-descent: latex-margins.foot-sep,
   )
 
+  // LaTeX-style font
+  set text(font: font)
+  show raw: set text(font: font)
+
+  // Make links blue
+  show link: it => {
+    set text(fill: rgb("#0000FF"))
+    it
+  }
+
   set par(
     first-line-indent: 0pt,   // No indendation
     spacing: 2em,             // 2x fontsize space betw. paragraphs
@@ -289,15 +379,20 @@
     dept: dept,
   )
 
+  // Set roman numeral page numbering for frontmatter
+  set page(numbering: "i")
+  counter(page).update(1)
+
   declaration-of-authorship(
     author: author,
     title: title,
   )
 
   if quotation != none {
-    quotation-page(quotation)
+    page(numbering: none, quotation-page(quotation))
   }
 
+  // TODO: This should not have page numbering, but removing the page number reverts to arabic numerals in outline 
   abstract-page(
     title: title,
     author: author,
@@ -307,21 +402,123 @@
     abstract
   )
 
-  // Header: Show (LHS) section title and (RHS) page number
-  counter(page).update(0)
-  pagebreak()
-  set page(
-    header: context [
-      #grid(
-        columns: (1fr,),
-        inset: (bottom: 0.5em),
-        [#emph(hydra(1)) #h(1fr) #counter(page).display("1")],
-        grid.hline(),
-      )
-    ]
+  acknowledgements-page(
+    acknowledgements,
   )
 
+  // Index pages
+  [#metadata("Index Start") <index-start>]
+  
+  // Header style for outline pages
+  show heading.where(level: 1): it => {
+    v(3em)
+    it
+    v(1.5em)
+  }
+  show heading.where(level: 1): set text(size: 25pt)
 
-  body
+  // Include 'outline' pages, in the main outline
+  show outline: set heading(outlined: true)
+  show outline.entry.where(
+    level: 1
+  ): it => {
+    strong(it)
+  }
+
+  // Main contents page
+  main-contents-page()
+
+  // Figures 
+  outline(
+    title: [List of Figures],
+    target: figure.where(kind: image),
+  )
+  pagebreak()
+  
+  // Tables 
+  // TODO: Make this and 'algorithms' optional
+  outline(
+    title: [List of Tables],
+    target: figure.where(kind: table),
+  )
+  pagebreak()
+
+  // Algorithms 
+  outline(
+    title: [List of Algorithms #label("frontmatter")] ,
+    target: figure.where(kind: "algorithm"),
+  ) 
+  pagebreak()
+
+  // Abbreviations page
+  [= Abbreviations <frontmatter>]
+  {
+    set align(center)
+    block(
+      width: 70%,
+      abbreviations
+    )
+  }
+  pagebreak()
+  
+  // ===== Styling for main content =====
+  // Set arabic numeral page numbering for main content
+  set page(numbering: "1")
+  counter(page).update(1)
+  {
+    // == Headings:
+    //  - Use arabic numerals
+    //  - Treat L1 headings as 'chapters': weak pagebreak + "Chapter X" + chapter name
+    //      (https://forum.typst.app/t/how-to-display-chapter-x-above-level-1-heading-name/4105/3)
+    set heading(numbering: "1.1")
+
+    show heading.where(level: 1): it => {
+      // Weak pagebreak (don't break if the page is already empty)
+      pagebreak(weak: true)
+      block(below: 23pt * 2.5, {
+        set text(size: 20pt)
+        v(4.5em)
+        block(below: 2.5em)[Chapter #counter(heading).display()]
+        set text(size: 23pt)
+        block(above: 1em,  it.body)
+      }) 
+    }
+
+    show heading.where(level: 2): it => {
+      set text(size: 14pt)
+      block(above: 2.5em, below: 2em, it)
+    }
+
+    show heading.where(level: 3): it => {
+      set text(size: 12pt)
+      block(above: 2.5em, below: 2em, it)
+    }
+
+    // Header: Show (LHS) section title and (RHS) page number
+    set page(
+      header: context {
+        if hydra(1) != none {
+          grid(
+            columns: (1fr,),
+            inset: (bottom: 0.5em),
+            [#emph(hydra(skip-starting: true, 1)) #h(1fr) #counter(page).display("1")],
+            grid.hline(),
+          )
+        }
+      },
+      footer: none // TODO: Ideally this would should page numbers on the chapter pages, and otherwise be none.
+    )
+
+    // Mark the start of the thesis -- used for outline (ToC) logic
+    [#metadata("Thesis Start") <thesis-start>]
+
+    body
+  }
+
+  pagebreak(weak: true)
+
+  [#metadata("Bibliography Start") <bibliography-start>]
+  [= Bibliography]
+  references
 }
 
