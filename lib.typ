@@ -468,9 +468,11 @@
   {
     // == Headings:
     //  - Use arabic numerals
+    //  - Add extra space between number and heading title
     //  - Treat L1 headings as 'chapters': weak pagebreak + "Chapter X" + chapter name
     //      (https://forum.typst.app/t/how-to-display-chapter-x-above-level-1-heading-name/4105/3)
-    set heading(numbering: "1.1")
+    set heading(numbering: "1.1", supplement: [Chapter])
+    show heading: it => block(counter(heading).display(it.numbering) + h(2em) + it.body)
 
     show heading.where(level: 1): it => {
       // Weak pagebreak (don't break if the page is already empty)
