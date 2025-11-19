@@ -394,14 +394,21 @@
     page(numbering: none, quotation-page(quotation))
   }
 
-  // TODO: This should not have page numbering, but removing the page number reverts to arabic numerals in outline 
-  abstract-page(
-    title: title,
-    author: author,
-    degree: degree,
-    faculty: faculty,
-    dept: dept,
-    abstract
+  // NOTE: This is a small hack to hide the page number.
+  // If we display the page with `page(numbering: none)`, this reverts the 
+  // page to arabic numerals in the outline, but we want roman numerals.
+  // Instead, we show the page without a footer. Since the number is in the footer,
+  // the number is not displayed.
+  page(
+    footer: none,
+    abstract-page(
+      title: title,
+      author: author,
+      degree: degree,
+      faculty: faculty,
+      dept: dept,
+      abstract
+    )
   )
 
   acknowledgements-page(
