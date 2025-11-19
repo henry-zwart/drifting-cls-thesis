@@ -440,10 +440,40 @@
 
   // Include 'outline' pages, in the main outline
   show outline: set heading(outlined: true)
-  show outline.entry.where(
-    level: 1
-  ): it => {
-    strong(it)
+
+  // Format entries like in LaTeX version: 
+  // - Make links blue
+  // - L1 headers should be bold and have no fill (connector) between title and page number
+  // - LX (X > 1) headers should be normal weight and have ellipses connector
+  show outline.entry: it => context {
+    // Ensure links are blue
+    show link: it => {
+      set text(fill: rgb("#0000FF"))
+      it
+    }
+
+    // L1 headings have no fill between title and page number, others have ellipses
+    let fill = {
+      if it.level == 1 {
+        h(1fr)
+      } else {
+        h(0.5em) + box(repeat([.], gap: 0.5em), width: 1fr) + h(1em)
+      }
+    }
+
+    // Define entry using level-dependent fill, attach page links
+    let entry = block(
+      it.indented(                                    // Indent heading number, and create space before title
+        link(it.element.location(), it.prefix()),     // Heading number (with link to page)
+        link(it.element.location(), it.body())        // Heading title (with link to page)
+        + fill                                        // Fill between title and page number
+        + it.page(),                                  // Page number
+        gap: 1em                                      // Increase space between heading number and title to match LaTeX
+      )
+    )
+
+    // Make L1 headings bold
+    if it.level == 1 {strong(entry)} else {entry}
   }
 
   // Main contents page
