@@ -259,10 +259,7 @@
       set align(center)
       emph(it)
       v(1em)
-      //v(0.2em)
     }
-    // set align(center)
-    // set text(size: 20pt)
     [= Acknowledgements]  
   }
 
@@ -318,7 +315,6 @@
   }
  
   pagebreak()
-  
 }
 
 #let thesis(
