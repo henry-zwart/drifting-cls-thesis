@@ -32,7 +32,7 @@
 
 ) = {
   let author-display = text-or-link(
-    [#author.first-name #upper(author.surname)],
+    [#author.first-name #smallcaps(author.surname)],
     author.at("site", default: none)
   )
   let group-display = text-or-link(group.name, group.at("site", default: none))
@@ -121,7 +121,7 @@
   author: (first-name: "", surname: ""),
   title: "Your Thesis Title",
 ) = {
-  let author-name = [#author.first-name #upper(author.surname)]
+  let author-name = [#author.first-name #smallcaps(author.surname)]
   set list(marker: $square.filled.small$)
 
   show heading: it => {
@@ -186,7 +186,7 @@
   dept: (name: "Department Name"),
   abstract
 ) = {
-  let author-display = [#author.first-name #upper(author.surname)]
+  let author-display = [#author.first-name #smallcaps(author.surname)]
   let faculty-display = text-or-link(faculty.name, faculty.at("site", default: none))
   let dept-display = text-or-link(dept.name, dept.at("site", default: none))
 
