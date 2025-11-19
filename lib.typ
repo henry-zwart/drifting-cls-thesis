@@ -299,10 +299,22 @@
   v(2em)
   
   // Then for the actual thesis 
-  outline(
-    title: none,
-    target: selector(heading).after(<thesis-start>).and(selector(heading).before(<bibliography-start>))
-  )
+  {
+    show outline.entry: it => {
+      set block(
+        spacing: 0.6em,
+        above: {
+          if it.level == 1 {1.6em} else {auto}
+        }
+      )
+      it
+    }
+
+    outline(
+      title: none,
+      target: selector(heading).after(<thesis-start>).and(selector(heading).before(<bibliography-start>))
+    )
+  }
   v(2em)
 
   // Finally, include bibliography
