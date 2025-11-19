@@ -355,7 +355,10 @@
 
   // LaTeX-style font
   set text(font: font)
-  show raw: set text(font: font)
+
+  // TODO: Add LaTeX-style fonts to resources. 
+  // LaTeX-style raw font is 'New Computer Modern Mono', but this doesn't exists locally for me
+  // show raw: set text(font: rawfont)
 
   // Make links blue
   show link: it => {
