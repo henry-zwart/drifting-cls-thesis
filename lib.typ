@@ -427,15 +427,13 @@
     acknowledgements,
   )
 
-  // Index pages
-  [#metadata("Index Start") <index-start>]
   
   // Header style for outline pages
-  show heading.where(level: 1): it => {
+  show heading.where(level: 1): it => block({
     v(3em)
     it
     v(1.5em)
-  }
+  })
   show heading.where(level: 1): set text(size: 25pt)
 
   // Include 'outline' pages, in the main outline
@@ -475,6 +473,39 @@
     // Make L1 headings bold
     if it.level == 1 {strong(entry)} else {entry}
   }
+
+  // Update page numbering for outlines. 
+  set page(
+    header: context {
+      if hydra(1) != none {
+        grid(
+          columns: (1fr,),
+          inset: (bottom: 0.5em),
+          [#emph(hydra(skip-starting: true, 1)) #h(1fr) #counter(page).display("i")],
+          grid.hline(),
+        )
+      }
+    },
+    footer: context {
+        // Display footer page numbers only on pages with L1 headings
+        // We will restart page count at start of thesis body, so exclude anything from there
+        let headings = query(heading.where(level: 1).before(<thesis-start>, inclusive: false))
+        let current_page = counter(page).get()
+        let has_level_1_heading = headings.any(h => 
+          counter(page).at(h.location()) == current_page
+        )
+        let level_1_heading_pages = headings.map(h => counter(page).at(h.location()))
+        if has_level_1_heading {
+          h(1fr)
+          counter(page).display("i")
+          h(1fr)
+        }
+    }
+  )
+
+  // Mark the start of the outline 
+  // Used for outline (ToC) logic to separate front-matter from outlines from thesis.
+  [#metadata("Index Start") <index-start>]
 
   // Main contents page
   main-contents-page()
@@ -559,7 +590,21 @@
           )
         }
       },
-      footer: none // TODO: Ideally this would should page numbers on the chapter pages, and otherwise be none.
+      footer: context {
+        // Display footer page numbers only on pages with L1 headings
+        // Exclude anything pages before start of thesis content, since we restart page count there
+        let headings = query(heading.where(level: 1).after(<thesis-start>))
+        let current_page = counter(page).get()
+        let has_level_1_heading = headings.any(h => 
+          counter(page).at(h.location()) == current_page
+        )
+        let level_1_heading_pages = headings.map(h => counter(page).at(h.location()))
+        if has_level_1_heading {
+          h(1fr)
+          counter(page).display("1")
+          h(1fr)
+        }
+      }
     )
 
     // Mark the start of the thesis -- used for outline (ToC) logic
