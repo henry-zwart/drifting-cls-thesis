@@ -38,7 +38,7 @@
 #let abbreviations = [
 / CSL: #strong[C]omputational #strong[S]cience #strong[L]ab
 
-/ UvA: #strong[U]niversiteit van #strong[A]msterdam
+/ UvA: #strong[U]niversiteit #strong[v]an #strong[A]msterdam
 ]
 
 #show: thesis.with(
