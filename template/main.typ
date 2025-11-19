@@ -36,9 +36,9 @@
 #let acknowledgements = [Thank the people that have helped: supervisors, family, etc.]
 
 #let abbreviations = [
-/ CSL: Computational Science Lab
+/ CSL: #strong[C]omputational #strong[S]cience #strong[L]ab
 
-/ UvA: Universiteit van Amsterdam
+/ UvA: #strong[U]niversiteit van #strong[A]msterdam
 ]
 
 #show: thesis.with(

@@ -58,43 +58,46 @@
   {
     set text(size: 20pt)
     line(length: 100%, stroke: 0.5mm)
-    //v(0.2cm - 1em)
     v(-1.2em)
     strong(title)
-    //v(0.4cm - 1em)
     v(-0.6em)
     line(length: 100%, stroke: 0.5mm)
-    //v(1.5cm - 1em)
   }
 
+  // Spacing between title and author/examiner block
+  v(0.2em)
+
   // Author, examiner, supervisor, assessor
-  let display-person(title, name) = [#emph[#title:] #linebreak() #name]
-  block(
-    width: 80%,
-    inset: 0pt,
-    grid(
-      columns: (1fr, 1fr),
-      align: (left + horizon, right),
-      display-person([Author], author-display),
+  {
+    set par(leading: 1em)
+    let display-person(title, name) = [#emph[#title:] #linebreak() #name]
+    block(
+      width: 80%,
+      inset: 0pt,
       grid(
-        rows: 3,
-        gutter: 1em,
-        align: right,
-        display-person([Examiner], examiner),
-        display-person([Supervisor], supervisor),
-        display-person([Assessor], assessor),
+        columns: (1fr, 1fr),
+        align: (left + horizon, right),
+        display-person([Author], author-display),
+        grid(
+          rows: 3,
+          gutter: 1em,
+          align: right,
+          display-person([Examiner], examiner),
+          display-person([Supervisor], supervisor),
+          display-person([Assessor], assessor),
+        )
       )
     )
-  )
+  }
   v(0.5em)
 
   // Submission statement
   {
     set text(size: 12pt)
     emph[A thesis submitted in partial fulfilment of the requirements #linebreak() for the degree of #degree]
-    v(0.3cm - 1em)
+    v(0.3cm - 1.05em)
     [_in the_]
-    v(0.4cm - 1em)
+    v(0.4cm - 1.05em)
     group-display
     linebreak()
     dept-display
