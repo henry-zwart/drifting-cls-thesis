@@ -108,11 +108,15 @@
   {
     set text(size: 12pt)
     datetime.today().display("[month repr:long] [year repr:full]")
-    v(1.5cm - 1em)
+    //v(1.5cm - 1em)
+    // v(1.5cm - 1em, weak: true)
   }
 
   // CSL Logo
-  image(width: 60%, "resources/clslogo.png")
+  place(
+    center + bottom,
+    image(width: 60%, "resources/clslogo.png")
+  )
 
   pagebreak()
 }
