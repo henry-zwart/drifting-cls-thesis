@@ -5,6 +5,12 @@
   surname: "Surname",
 )
 
+#let supervision-team = (
+  supervisor: "Supervisor Name",
+  assessor: "Assessor Name",
+  examiner: "Examiner Name",
+)
+
 #let group = (
   name: "Computational Science Lab",
   site: "https://uva.computationalscience.nl/"
@@ -44,6 +50,7 @@
 #show: thesis.with(
   title: "Your Thesis Title",
   author: author,
+  supervision-team: supervision-team,
   degree: degree,
   group: group,
   dept: dept,

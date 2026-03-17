@@ -332,6 +332,11 @@
 #let thesis(
   title: "", 
   author: (first-name: "", surname: ""),
+  supervision-team: (
+    supervisor: "Supervisor Name", 
+    assessor: "Assessor Name", 
+    examiner: "Examiner Name"
+  ),
   degree: "",
   group: (name: ""),
   dept: (name: ""),
@@ -391,6 +396,9 @@
     degree: degree,
     group: group,
     dept: dept,
+    supervisor: supervision-team.supervisor,
+    assessor: supervision-team.assessor,
+    examiner: supervision-team.examiner,
   )
 
   // Set roman numeral page numbering for frontmatter
