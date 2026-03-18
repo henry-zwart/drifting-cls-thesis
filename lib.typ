@@ -353,6 +353,8 @@
   font: "New Computer Modern",
   rawfont: "New Computer Modern Mono",
   references: none,
+  hide_plan: false,
+  plan_font_fill: luma(140),
   body,
 ) = {
   // Page setup as in CLS LaTeX thesis template:
@@ -385,6 +387,15 @@
   show link: it => {
     set text(fill: rgb("#0000FF"))
     it
+  }
+  
+  // Planning/draft text
+  // Show in a different colour to main text, or hide
+  show <plan>: it => {
+    set text(fill: plan_font_fill)
+    if not hide_plan {
+      it
+    }
   }
 
   set par(
@@ -632,3 +643,7 @@
   references
 }
 
+// Wrap content in 'plan' environment
+// - Shows in a different colour from main text (luma(140), grey)
+// - Can be hidden by passing `hide_plan: true` to proposal template
+#let plan(body) = [#text(body) <plan>]
