@@ -1,4 +1,4 @@
-#import "@preview/hydra:0.6.2": hydra, anchor
+#import "@preview/hydra:0.6.2": anchor, hydra
 
 #let latex-margins = (
   top: 0.6in,
@@ -28,12 +28,11 @@
   supervisor: "Supervisor Name",
   assessor: "Assessor Name",
   group: (name: "Group Name"),
-  dept: (name: "Department Name")
-
+  dept: (name: "Department Name"),
 ) = {
   let author-display = text-or-link(
     [#author.first-name #smallcaps(author.surname)],
-    author.at("site", default: none)
+    author.at("site", default: none),
   )
   let group-display = text-or-link(group.name, group.at("site", default: none))
   let dept-display = text-or-link(dept.name, dept.at("site", default: none))
@@ -85,8 +84,8 @@
           display-person([Examiner], examiner),
           display-person([Supervisor], supervisor),
           display-person([Assessor], assessor),
-        )
-      )
+        ),
+      ),
     )
   }
   v(0.5em)
@@ -115,7 +114,7 @@
   // CSL Logo
   place(
     center + bottom,
-    image(width: 60%, "resources/clslogo.png")
+    image(width: 60%, "resources/clslogo.png"),
   )
 
   pagebreak()
@@ -143,21 +142,21 @@
     I confirm that:
     #v(1em)
 
-    - This work was done wholly or mainly while in candidature for a research degree at the University 
+    - This work was done wholly or mainly while in candidature for a research degree at the University
       of Amsterdam.
 
-    - Where any part of this thesis has previously been submitted for a degree or any other qualification 
+    - Where any part of this thesis has previously been submitted for a degree or any other qualification
       at this University or any other institution, this has been clearly stated.
 
     - Where I have consulted the published work of others, this is always clearly at-
       tributed.
 
-    - Where I have quoted from the work of others, the source is always given. With the exception of such 
+    - Where I have quoted from the work of others, the source is always given. With the exception of such
       quotations, this thesis is entirely my own work.
 
     - I have acknowledged all main sources of help.
 
-    - Where the thesis is based on work done by myself jointly with others, I have made clear exactly 
+    - Where the thesis is based on work done by myself jointly with others, I have made clear exactly
       what was done by others and what I have contributed myself.
 
     #v(3em)
@@ -174,7 +173,7 @@
 
 #let quotation-page(quotation) = {
   set quote(block: true)
-  
+
   v(1.2fr)
   quote(attribution: quotation.attrib, quotes: true, emph(quotation.quote-text))
   v(6fr)
@@ -188,7 +187,7 @@
   degree: "Degree Name",
   faculty: (name: "Faculty Name"),
   dept: (name: "Department Name"),
-  abstract
+  abstract,
 ) = {
   let author-display = [#author.first-name #smallcaps(author.surname)]
   let faculty-display = text-or-link(faculty.name, faculty.at("site", default: none))
@@ -215,7 +214,7 @@
       emph(it)
       v(0.2em)
     }
-    [= Abstract] 
+    [= Abstract]
   }
   v(1em)
 
@@ -264,59 +263,59 @@
       emph(it)
       v(1em)
     }
-    [= Acknowledgements]  
+    [= Acknowledgements]
   }
 
   acknowledgements
-  
+
   pagebreak()
 }
 
 // TODO: Link colours, entry spacing
 #let main-contents-page() = {
   // Default spacing
-  show outline.entry.where(level: 1): set block(above: 1.75em) 
+  show outline.entry.where(level: 1): set block(above: 1.75em)
 
   // First make outline for non-index frontmatter
   {
     show outline.entry.where(
-      level: 1
+      level: 1,
     ): set block(below: 2.5em)
 
     set outline.entry(fill: none)
 
     outline(
       title: [Contents],
-      target: selector(heading).before(<index-start>)
+      target: selector(heading).before(<index-start>),
     )
   }
 
-  
+
   // Then for index frontmatter
   {
     set outline.entry(fill: none)
     outline(
       title: none,
-      target: selector(heading).after(<index-start>).and(selector(heading).before(<thesis-start>))
+      target: selector(heading).after(<index-start>).and(selector(heading).before(<thesis-start>)),
     )
   }
   v(2em)
-  
-  // Then for the actual thesis 
+
+  // Then for the actual thesis
   {
     show outline.entry: it => {
       set block(
         spacing: 0.6em,
         above: {
-          if it.level == 1 {1.6em} else {auto}
-        }
+          if it.level == 1 { 1.6em } else { auto }
+        },
       )
       it
     }
 
     outline(
       title: none,
-      target: selector(heading).after(<thesis-start>).and(selector(heading).before(<bibliography-start>))
+      target: selector(heading).after(<thesis-start>).and(selector(heading).before(<bibliography-start>)),
     )
   }
   v(2em)
@@ -326,20 +325,20 @@
     set outline.entry(fill: none)
     outline(
       title: none,
-      target: selector(heading).after(<bibliography-start>)
+      target: selector(heading).after(<bibliography-start>),
     )
   }
- 
+
   pagebreak()
 }
 
 #let thesis(
-  title: "", 
+  title: "",
   author: (first-name: "", surname: ""),
   supervision-team: (
-    supervisor: "Supervisor Name", 
-    assessor: "Assessor Name", 
-    examiner: "Examiner Name"
+    supervisor: "Supervisor Name",
+    assessor: "Assessor Name",
+    examiner: "Examiner Name",
   ),
   degree: "",
   group: (name: ""),
@@ -379,7 +378,7 @@
   // LaTeX-style font
   set text(font: font)
 
-  // TODO: Add LaTeX-style fonts to resources. 
+  // TODO: Add LaTeX-style fonts to resources.
   // LaTeX-style raw font is 'New Computer Modern Mono', but this doesn't exists locally for me
   // show raw: set text(font: rawfont)
 
@@ -388,7 +387,7 @@
     set text(fill: rgb("#0000FF"))
     it
   }
-  
+
   // Planning/draft text
   // Show in a different colour to main text, or hide
   show <plan>: it => {
@@ -399,10 +398,13 @@
   }
 
   set par(
-    first-line-indent: 0pt,   // No indendation
-    spacing: 2em,             // 2x fontsize space betw. paragraphs
-    leading: 0.9em,             // Line spacing
+    first-line-indent: 0pt, // No indendation
+    spacing: 2em, // 2x fontsize space betw. paragraphs
+    leading: 0.9em, // Line spacing
     justify: true,
+    justification-limits: (
+      tracking: (min: -0.01em, max: 0.02em),
+    ),
   )
 
   titlepage(
@@ -430,7 +432,7 @@
   }
 
   // NOTE: This is a small hack to hide the page number.
-  // If we display the page with `page(numbering: none)`, this reverts the 
+  // If we display the page with `page(numbering: none)`, this reverts the
   // page to arabic numerals in the outline, but we want roman numerals.
   // Instead, we show the page without a footer. Since the number is in the footer,
   // the number is not displayed.
@@ -442,15 +444,15 @@
       degree: degree,
       faculty: faculty,
       dept: dept,
-      abstract
-    )
+      abstract,
+    ),
   )
 
   acknowledgements-page(
     acknowledgements,
   )
 
-  
+
   // Header style for outline pages
   show heading.where(level: 1): it => block({
     v(3em)
@@ -462,7 +464,7 @@
   // Include 'outline' pages, in the main outline
   show outline: set heading(outlined: true)
 
-  // Format entries like in LaTeX version: 
+  // Format entries like in LaTeX version:
   // - Make links blue
   // - L1 headers should be bold and have no fill (connector) between title and page number
   // - LX (X > 1) headers should be normal weight and have ellipses connector
@@ -484,20 +486,21 @@
 
     // Define entry using level-dependent fill, attach page links
     let entry = block(
-      it.indented(                                    // Indent heading number, and create space before title
-        link(it.element.location(), it.prefix()),     // Heading number (with link to page)
-        link(it.element.location(), it.body())        // Heading title (with link to page)
-        + fill                                        // Fill between title and page number
-        + it.page(),                                  // Page number
-        gap: 1em                                      // Increase space between heading number and title to match LaTeX
-      )
+      it.indented(
+        // Indent heading number, and create space before title
+        link(it.element.location(), it.prefix()), // Heading number (with link to page)
+        link(it.element.location(), it.body()) // Heading title (with link to page)
+          + fill // Fill between title and page number
+          + it.page(), // Page number
+        gap: 1em, // Increase space between heading number and title to match LaTeX
+      ),
     )
 
     // Make L1 headings bold
-    if it.level == 1 {strong(entry)} else {entry}
+    if it.level == 1 { strong(entry) } else { entry }
   }
 
-  // Update page numbering for outlines. 
+  // Update page numbering for outlines.
   set page(
     header: context {
       if hydra(1) != none {
@@ -510,37 +513,35 @@
       }
     },
     footer: context {
-        // Display footer page numbers only on pages with L1 headings
-        // We will restart page count at start of thesis body, so exclude anything from there
-        let headings = query(heading.where(level: 1).before(<thesis-start>, inclusive: false))
-        let current_page = counter(page).get()
-        let has_level_1_heading = headings.any(h => 
-          counter(page).at(h.location()) == current_page
-        )
-        let level_1_heading_pages = headings.map(h => counter(page).at(h.location()))
-        if has_level_1_heading {
-          h(1fr)
-          counter(page).display("i")
-          h(1fr)
-        }
-    }
+      // Display footer page numbers only on pages with L1 headings
+      // We will restart page count at start of thesis body, so exclude anything from there
+      let headings = query(heading.where(level: 1).before(<thesis-start>, inclusive: false))
+      let current_page = counter(page).get()
+      let has_level_1_heading = headings.any(h => counter(page).at(h.location()) == current_page)
+      let level_1_heading_pages = headings.map(h => counter(page).at(h.location()))
+      if has_level_1_heading {
+        h(1fr)
+        counter(page).display("i")
+        h(1fr)
+      }
+    },
   )
 
-  // Mark the start of the outline 
+  // Mark the start of the outline
   // Used for outline (ToC) logic to separate front-matter from outlines from thesis.
   [#metadata("Index Start") <index-start>]
 
   // Main contents page
   main-contents-page()
 
-  // Figures 
+  // Figures
   outline(
     title: [List of Figures],
     target: figure.where(kind: image),
   )
   pagebreak()
-  
-  // Tables 
+
+  // Tables
   // TODO: Make this and 'algorithms' optional
   outline(
     title: [List of Tables],
@@ -548,11 +549,11 @@
   )
   pagebreak()
 
-  // Algorithms 
+  // Algorithms
   outline(
-    title: [List of Algorithms #label("frontmatter")] ,
+    title: [List of Algorithms #label("frontmatter")],
     target: figure.where(kind: "algorithm"),
-  ) 
+  )
   pagebreak()
 
   // Abbreviations page
@@ -561,11 +562,11 @@
     set align(center)
     block(
       width: 70%,
-      abbreviations
+      abbreviations,
     )
   }
   pagebreak()
-  
+
   // ===== Styling for main content =====
   // Set arabic numeral page numbering for main content
   set page(numbering: "1")
@@ -587,8 +588,8 @@
         v(4.5em)
         block(below: 2.5em)[Chapter #counter(heading).display()]
         set text(size: 23pt)
-        block(above: 1em,  it.body)
-      }) 
+        block(above: 1em, it.body)
+      })
     }
 
     show heading.where(level: 2): it => {
@@ -618,16 +619,14 @@
         // Exclude anything pages before start of thesis content, since we restart page count there
         let headings = query(heading.where(level: 1).after(<thesis-start>))
         let current_page = counter(page).get()
-        let has_level_1_heading = headings.any(h => 
-          counter(page).at(h.location()) == current_page
-        )
+        let has_level_1_heading = headings.any(h => counter(page).at(h.location()) == current_page)
         let level_1_heading_pages = headings.map(h => counter(page).at(h.location()))
         if has_level_1_heading {
           h(1fr)
           counter(page).display("1")
           h(1fr)
         }
-      }
+      },
     )
 
     // Mark the start of the thesis -- used for outline (ToC) logic
