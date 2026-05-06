@@ -571,6 +571,10 @@
   // Set arabic numeral page numbering for main content
   set page(numbering: "1")
   counter(page).update(1)
+
+  // Number equations (reqd for referencing eqns)
+  set math.equation(numbering: "1.")
+
   {
     // == Headings:
     //  - Use arabic numerals
