@@ -249,7 +249,7 @@
   pagebreak()
 }
 
-#let acknowledgements-page(acknowledgements) = {
+#let frontmatter-page(title, body) = {
   // Defaults
   set text(size: 11pt)
   set align(left)
@@ -263,13 +263,14 @@
       emph(it)
       v(1em)
     }
-    [= Acknowledgements]
+    [= #title]
   }
 
-  acknowledgements
+  body
 
   pagebreak()
 }
+
 
 // TODO: Link colours, entry spacing
 #let main-contents-page() = {
@@ -354,6 +355,7 @@
   references: none,
   hide_plan: false,
   plan_font_fill: luma(140),
+  additional-frontmatter: (),
   body,
 ) = {
   // Page setup as in CLS LaTeX thesis template:
@@ -448,10 +450,11 @@
     ),
   )
 
-  acknowledgements-page(
-    acknowledgements,
-  )
+  frontmatter-page([Acknowledgements], acknowledgements)
 
+  for extra-fm-page in additional-frontmatter {
+    frontmatter-page(extra-fm-page.title, extra-fm-page.body)
+  }
 
   // Header style for outline pages
   show heading.where(level: 1): it => block({
