@@ -123,6 +123,7 @@
 #let declaration-of-authorship(
   author: (first-name: "", surname: ""),
   title: "Your Thesis Title",
+  signature: none,
 ) = {
   let author-name = [#author.first-name #smallcaps(author.surname)]
   set list(marker: $square.filled.small$)
@@ -162,7 +163,14 @@
     #v(3em)
 
     Signed:
-    #v(2cm)
+
+    #{
+      if signature != none {
+        signature
+      } else {
+        v(2cm)
+      }
+    }
 
     Date: #datetime.today().display("[day] [month repr:long] [year repr:full]")
     #v(1fr)
@@ -349,6 +357,7 @@
   abstract: none,
   acknowledgements: none,
   abbreviations: none,
+  signature: none,
   fontsize: 11pt,
   font: "New Computer Modern",
   rawfont: "New Computer Modern Mono",
@@ -427,6 +436,7 @@
   declaration-of-authorship(
     author: author,
     title: title,
+    signature: signature,
   )
 
   if quotation != none {
@@ -575,8 +585,22 @@
   set page(numbering: "1")
   counter(page).update(1)
 
-  // Number equations (reqd for referencing eqns)
-  set math.equation(numbering: "1.")
+  // Number equations as <CHAPTER #>.<EQ #>, and tables, images the same
+  set math.equation(numbering: (..nums) => {
+    let section = counter(heading).get().first()
+    numbering("(1.1)", section, ..nums)
+  })
+  set figure(numbering: (..nums) => {
+    let section = counter(heading).get().first()
+    numbering("1.1", section, ..nums)
+  })
+
+  show heading.where(level: 1): it => {
+    counter(figure.where(kind: table)).update(0)
+    counter(figure.where(kind: image)).update(0)
+    counter(math.equation).update(0)
+    it
+  }
 
   {
     // == Headings:
