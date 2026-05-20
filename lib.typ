@@ -1,3 +1,5 @@
+// Page width (without margins): 5.77"
+
 #import "@preview/hydra:0.6.2": anchor, hydra
 
 #let latex-margins = (
@@ -609,13 +611,6 @@
     numbering("1.1", section, ..nums)
   })
 
-  show heading.where(level: 1): it => {
-    counter(figure.where(kind: table)).update(0)
-    counter(figure.where(kind: image)).update(0)
-    counter(math.equation).update(0)
-    it
-  }
-
   {
     // == Headings:
     //  - Use arabic numerals
@@ -626,6 +621,11 @@
     show heading: it => block(counter(heading).display(it.numbering) + h(2em) + it.body)
 
     show heading.where(level: 1): it => {
+      // Reset equation, figure, table counters
+      counter(figure.where(kind: table)).update(0)
+      counter(figure.where(kind: image)).update(0)
+      counter(math.equation).update(0)
+
       // Weak pagebreak (don't break if the page is already empty)
       pagebreak(weak: true)
       block(below: 23pt * 2.5, {
