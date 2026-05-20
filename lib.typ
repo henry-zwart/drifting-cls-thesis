@@ -586,10 +586,24 @@
   counter(page).update(1)
 
   // Number equations as <CHAPTER #>.<EQ #>, and tables, images the same
-  set math.equation(numbering: (..nums) => {
-    let section = counter(heading).get().first()
-    numbering("(1.1)", section, ..nums)
-  })
+  set math.equation(
+    numbering: (..nums) => {
+      let section = counter(heading).get().first()
+      numbering("(1.1)", section, ..nums)
+    },
+  )
+  show ref: it => {
+    let eq = math.equation
+    let el = it.element
+
+    if el != none and el.func() == eq {
+      show regex("\(|\)"): ""
+      it
+    } else {
+      it
+    }
+  }
+
   set figure(numbering: (..nums) => {
     let section = counter(heading).get().first()
     numbering("1.1", section, ..nums)
