@@ -698,7 +698,6 @@
   pagebreak(weak: true)
 
   [#metadata("Bibliography Start") <bibliography-start>]
-  [= Bibliography]
   references
 }
 
