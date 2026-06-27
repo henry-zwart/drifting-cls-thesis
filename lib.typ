@@ -2,6 +2,7 @@
 
 #import "@preview/hydra:0.6.2": anchor, hydra
 
+
 #let latex-margins = (
   top: 0.6in,
   right: 1.0in,
@@ -549,11 +550,20 @@
   // Main contents page
   main-contents-page()
 
+  // Allow short captions to be specified for outlines (e.g., for figures, tables)
+  let in-outline = state("in-outline", false)
+  show outline: it => {
+    in-outline.update(true)
+    it
+    in-outline.update(false)
+  }
+
   // Figures
   outline(
     title: [List of Figures],
     target: figure.where(kind: image),
   )
+
   pagebreak()
 
   // Tables
@@ -691,3 +701,8 @@
 // - Shows in a different colour from main text (luma(140), grey)
 // - Can be hidden by passing `hide_plan: true` to proposal template
 #let plan(body) = [#text(body) <plan>]
+
+
+#let caption(short: none, long: none) = context if state("in-outline", false).get() {
+  short
+} else { long }
