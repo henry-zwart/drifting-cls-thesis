@@ -368,6 +368,8 @@
   hide_plan: false,
   plan_font_fill: luma(140),
   additional-frontmatter: (),
+  outline-tables: true,
+  outline-algorithms: false,
   body,
 ) = {
   // Page setup as in CLS LaTeX thesis template:
@@ -567,19 +569,22 @@
   pagebreak()
 
   // Tables
-  // TODO: Make this and 'algorithms' optional
-  outline(
-    title: [List of Tables],
-    target: figure.where(kind: table),
-  )
-  pagebreak()
+  if outline-tables {
+    outline(
+      title: [List of Tables],
+      target: figure.where(kind: table),
+    )
+    pagebreak()
+  }
 
   // Algorithms
-  outline(
-    title: [List of Algorithms #label("frontmatter")],
-    target: figure.where(kind: "algorithm"),
-  )
-  pagebreak()
+  if outline-algorithms {
+    outline(
+      title: [List of Algorithms #label("frontmatter")],
+      target: figure.where(kind: "algorithm"),
+    )
+    pagebreak()
+  }
 
   // Abbreviations page
   [= Abbreviations <frontmatter>]

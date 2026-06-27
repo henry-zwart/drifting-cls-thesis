@@ -76,7 +76,7 @@
 
 #figure(
   rect(),
-  caption: flex-caption(short: [A short caption.], long: [This is a long caption.]),
+  caption: caption(short: [A short caption.], long: [This is a long caption.]),
 )
 
 == Exploring subsections
