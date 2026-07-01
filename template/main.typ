@@ -58,6 +58,16 @@
   / UvA: #strong[U]niversiteit #strong[v]an #strong[A]msterdam
 ]
 
+#let appendix_a = [
+  = Appendix A
+  #lorem(150)
+]
+#let appendix_b = [
+  = Appendix B
+  #lorem(350)
+]
+
+
 #show: thesis.with(
   title: "Your Thesis Title",
   author: author,
@@ -70,6 +80,7 @@
   abstract: abstract,
   acknowledgements: acknowledgements,
   abbreviations: abbreviations,
+  appendices: (appendix_a, appendix_b),
 )
 
 = Introduction

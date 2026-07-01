@@ -365,6 +365,7 @@
   font: "New Computer Modern",
   rawfont: "New Computer Modern Mono",
   references: none,
+  appendices: (),
   hide_plan: false,
   plan_font_fill: luma(140),
   additional-frontmatter: (),
@@ -699,6 +700,11 @@
 
   [#metadata("Bibliography Start") <bibliography-start>]
   references
+
+  for appendix in appendices {
+    appendix
+    pagebreak(weak: true)
+  }
 }
 
 // Wrap content in 'plan' environment
