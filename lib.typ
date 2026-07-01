@@ -701,6 +701,8 @@
   [#metadata("Bibliography Start") <bibliography-start>]
   references
 
+  pagebreak(weak: true)
+
   for appendix in appendices {
     appendix
     pagebreak(weak: true)
