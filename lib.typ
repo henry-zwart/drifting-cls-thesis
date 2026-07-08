@@ -298,7 +298,6 @@
 
     outline(
       title: [Contents],
-      depth: 2,
       target: selector(heading).before(<index-start>),
     )
   }
@@ -327,6 +326,7 @@
 
     outline(
       title: none,
+      depth: 2,
       target: selector(heading).after(<thesis-start>).and(selector(heading).before(<bibliography-start>)),
     )
   }
