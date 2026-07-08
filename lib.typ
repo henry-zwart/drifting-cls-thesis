@@ -298,10 +298,10 @@
 
     outline(
       title: [Contents],
+      depth: 2,
       target: selector(heading).before(<index-start>),
     )
   }
-
 
   // Then for index frontmatter
   {
