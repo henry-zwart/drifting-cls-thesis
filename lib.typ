@@ -608,7 +608,7 @@
   set figure(placement: auto)
   show figure: it => {
     set text(size: caption-fontsize)
-    show figure.caption: cap => box(width: 4.75in, cap)
+    show figure.caption: cap => box(width: 5in, cap)
     it
   }
 
