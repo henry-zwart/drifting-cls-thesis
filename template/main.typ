@@ -87,7 +87,10 @@
 
 #figure(
   rect(),
-  caption: caption(short: [A short caption.], long: [This is a long caption.]),
+  caption: caption(
+    short: [A short caption.],
+    long: [This is a long caption. #lorem(30)],
+  ),
 )
 
 == Exploring subsections
