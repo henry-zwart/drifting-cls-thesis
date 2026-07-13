@@ -362,6 +362,7 @@
   abbreviations: none,
   signature: none,
   fontsize: 11pt,
+  caption-fontsize: 10pt,
   font: "New Computer Modern",
   rawfont: "New Computer Modern Mono",
   references: none,
@@ -602,6 +603,10 @@
   // Set arabic numeral page numbering for main content
   set page(numbering: "1")
   counter(page).update(1)
+
+  // Auto figure placement, smaller caption font size
+  set figure(placement: auto)
+  show figure: set text(size: caption-fontsize)
 
   // Number equations as <CHAPTER #>.<EQ #>, and tables, images the same
   set math.equation(
