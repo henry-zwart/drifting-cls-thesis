@@ -732,12 +732,79 @@
   pagebreak(weak: true)
   [#metadata("Bibliography End") <bibliography-end>]
 
-  set heading(numbering: "A.1.1", supplement: [Appendix])
   counter(heading).update(0)
-  for appendix in appendices {
-    appendix
-    pagebreak(weak: true)
+  // Repeat show rules from above for thesis, for appendices.
+  // We don't want these active for the bibliography, but I'm too busy rn to make
+  // a separate function.
+  {
+    // == Headings:
+    //  - Use arabic numerals
+    //  - Add extra space between number and heading title
+    //  - Treat L1 headings as 'chapters': weak pagebreak + "Chapter X" + chapter name
+    //      (https://forum.typst.app/t/how-to-display-chapter-x-above-level-1-heading-name/4105/3)
+    set heading(numbering: "A.1.1", supplement: [Appendix])
+    show heading: it => block(counter(heading).display(it.numbering) + h(2em) + it.body)
+
+    show heading.where(level: 1): it => {
+      // Reset equation, figure, table counters
+      counter(figure.where(kind: table)).update(0)
+      counter(figure.where(kind: image)).update(0)
+      counter(math.equation).update(0)
+
+      // Weak pagebreak (don't break if the page is already empty)
+      pagebreak(weak: true)
+      block(below: 23pt * 2.5, {
+        set text(size: 20pt)
+        v(4.5em)
+        block(below: 2.5em)[#heading.supplement #counter(heading).display()]
+        set text(size: 23pt)
+        block(above: 1em, it.body)
+      })
+    }
+
+    show heading.where(level: 2): it => {
+      set text(size: 14pt)
+      block(above: 2.5em, below: 2em, it)
+    }
+
+    show heading.where(level: 3): it => {
+      set text(size: 12pt)
+      block(above: 2.5em, below: 2em, it)
+    }
+
+    // Header: Show (LHS) section title and (RHS) page number
+    set page(
+      header: context {
+        if hydra(1) != none {
+          grid(
+            columns: (1fr,),
+            inset: (bottom: 0.5em),
+            [#emph(hydra(skip-starting: true, 1)) #h(1fr) #counter(page).display("1")],
+            grid.hline(),
+          )
+        }
+      },
+      footer: context {
+        // Display footer page numbers only on pages with L1 headings
+        // Exclude anything pages before end of bibliography content, since we restart page count there
+        let headings = query(heading.where(level: 1).after(<bibliography-end>))
+        let current_page = counter(page).get()
+        let has_level_1_heading = headings.any(h => counter(page).at(h.location()) == current_page)
+        let level_1_heading_pages = headings.map(h => counter(page).at(h.location()))
+        if has_level_1_heading {
+          h(1fr)
+          counter(page).display("1")
+          h(1fr)
+        }
+      },
+    )
+
+    for appendix in appendices {
+      appendix
+      pagebreak(weak: true)
+    }
   }
+  //set heading(numbering: "A.1.1", supplement: [Appendix])
 }
 
 // Wrap content in 'plan' environment
