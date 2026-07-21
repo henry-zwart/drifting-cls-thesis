@@ -726,6 +726,34 @@
 
   pagebreak(weak: true)
 
+  // Update page for bibliography. Just copied and pasted from above but changed to
+  // arabic numerals
+  set page(
+    header: context {
+      if hydra(1) != none {
+        grid(
+          columns: (1fr,),
+          inset: (bottom: 0.5em),
+          [#emph(hydra(skip-starting: true, 1)) #h(1fr) #counter(page).display("1")],
+          grid.hline(),
+        )
+      }
+    },
+    footer: context {
+      // Display footer page numbers only on pages with L1 headings
+      // We will restart page count at start of thesis body, so exclude anything from there
+      let headings = query(heading.where(level: 1).after(<thesis-start>, inclusive: false))
+      let current_page = counter(page).get()
+      let has_level_1_heading = headings.any(h => counter(page).at(h.location()) == current_page)
+      let level_1_heading_pages = headings.map(h => counter(page).at(h.location()))
+      if has_level_1_heading {
+        h(1fr)
+        counter(page).display("1")
+        h(1fr)
+      }
+    },
+  )
+
   [#metadata("Bibliography Start") <bibliography-start>]
   references
 
