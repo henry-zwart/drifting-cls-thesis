@@ -765,6 +765,11 @@
   // We don't want these active for the bibliography, but I'm too busy rn to make
   // a separate function.
   {
+    set figure(numbering: (..nums) => {
+      let section = counter(heading).get().first()
+      numbering("A.1.1", section, ..nums)
+    })
+
     // == Headings:
     //  - Use arabic numerals
     //  - Add extra space between number and heading title
