@@ -518,7 +518,7 @@
 
     // Define entry using level-dependent fill, attach page links
     let prefix = {
-      if query(it.element.location()).first().supplement == "Appendix" {
+      if query(it.element.location()).first().supplement == [Appendix] {
         [Appendix #it.prefix()]
       } else {
         it.prefix()
