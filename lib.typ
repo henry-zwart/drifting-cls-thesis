@@ -346,10 +346,6 @@
   // Finally, include appendices
   {
     set outline.entry(fill: none)
-    show outline.entry: it => link(
-      it.element.location(),
-      it.indented([Appendix #it.prefix()], it.inner()),
-    )
     outline(
       title: none,
       depth: 1,
@@ -521,10 +517,17 @@
     }
 
     // Define entry using level-dependent fill, attach page links
+    let prefix = {
+      if query(it.element.location()).first().supplement == "Appendix" {
+        [Appendix #it.prefix()]
+      } else {
+        it.prefix()
+      }
+    }
     let entry = block(
       it.indented(
         // Indent heading number, and create space before title
-        link(it.element.location(), it.prefix()), // Heading number (with link to page)
+        link(it.element.location(), prefix), // Heading number (with link to page)
         link(it.element.location(), it.body()) // Heading title (with link to page)
           + fill // Fill between title and page number
           + it.page(), // Page number
