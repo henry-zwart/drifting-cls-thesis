@@ -713,7 +713,7 @@
   pagebreak(weak: true)
 
   set heading(numbering: "A.1.1", supplement: [Appendix])
-  counter(heading).update(1)
+  counter(heading).update(0)
   for appendix in appendices {
     appendix
     pagebreak(weak: true)
