@@ -332,12 +332,28 @@
   }
   v(2em)
 
-  // Finally, include bibliography
+  // Include bibliography
   {
     set outline.entry(fill: none)
+
     outline(
       title: none,
-      target: selector(heading).after(<bibliography-start>),
+      target: selector(heading).after(<bibliography-start>).and(selector(heading).before(<bibliography-end>)),
+    )
+  }
+  v(2em)
+
+  // Finally, include appendices
+  {
+    set outline.entry(fill: none)
+    show outline.entry: it => link(
+      it.element.location(),
+      it.indented([Appendix #it.prefix()], it.inner()),
+    )
+    outline(
+      title: none,
+      depth: 1,
+      target: selector(heading).after(<bibliography-end>),
     )
   }
 
@@ -711,6 +727,7 @@
   references
 
   pagebreak(weak: true)
+  [#metadata("Bibliography End") <bibliography-end>]
 
   set heading(numbering: "A.1.1", supplement: [Appendix])
   counter(heading).update(0)
