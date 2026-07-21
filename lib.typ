@@ -656,7 +656,7 @@
       block(below: 23pt * 2.5, {
         set text(size: 20pt)
         v(4.5em)
-        block(below: 2.5em)[Chapter #counter(heading).display()]
+        block(below: 2.5em)[#heading.supplement #counter(heading).display()]
         set text(size: 23pt)
         block(above: 1em, it.body)
       })
@@ -712,7 +712,8 @@
 
   pagebreak(weak: true)
 
-  set heading(numbering: "A", supplement: [Appendix])
+  set heading(numbering: "A.1.1", supplement: [Appendix])
+  counter(heading).update(1)
   for appendix in appendices {
     appendix
     pagebreak(weak: true)
