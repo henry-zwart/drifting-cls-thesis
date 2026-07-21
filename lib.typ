@@ -712,6 +712,7 @@
 
   pagebreak(weak: true)
 
+  set heading(numbering: "A", supplement: [Appendix])
   for appendix in appendices {
     appendix
     pagebreak(weak: true)
