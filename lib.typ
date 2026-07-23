@@ -625,11 +625,7 @@
 
   // Auto figure placement, smaller caption font size
   set figure(placement: auto)
-  show figure: it => {
-    set text(size: caption-fontsize)
-    show figure.caption: cap => box(width: 5in, cap)
-    it
-  }
+  show figure.caption: cap => box(width: 5in, text(size: caption-fontsize, cap))
 
   // Number equations as <CHAPTER #>.<EQ #>, and tables, images the same
   set math.equation(
