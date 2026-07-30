@@ -413,10 +413,7 @@
   // show raw: set text(font: rawfont)
 
   // Make links blue
-  show link: it => {
-    set text(fill: rgb("#0000FF"))
-    it
-  }
+  show link: set text(fill: rgb("#0000FF"))
 
   // Planning/draft text
   // Show in a different colour to main text, or hide
@@ -502,10 +499,7 @@
   // - LX (X > 1) headers should be normal weight and have ellipses connector
   show outline.entry: it => context {
     // Ensure links are blue
-    show link: it => {
-      set text(fill: rgb("#0000FF"))
-      it
-    }
+    show link: set text(fill: rgb("#0000FF"))
 
     // L1 headings have no fill between title and page number, others have ellipses
     let fill = {
