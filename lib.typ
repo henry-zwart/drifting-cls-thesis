@@ -415,7 +415,6 @@
   // Make links blue
   show link: it => {
     set text(fill: rgb("#0000FF"))
-    set text(fill: rgb("#AA00FF"))
     it
   }
 
