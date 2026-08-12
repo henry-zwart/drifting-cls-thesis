@@ -375,6 +375,7 @@
   signature: none,
   fontsize: 11pt,
   caption-fontsize: 10pt,
+  caption-width: none,
   font: "New Computer Modern",
   rawfont: "New Computer Modern Mono",
   references: none,
@@ -617,9 +618,12 @@
   set page(numbering: "1")
   counter(page).update(1)
 
-  // Auto figure placement, smaller caption font size
+  // Auto figure placement, smaller caption font size, smaller caption width
   set figure(placement: auto)
-  show figure.caption: cap => box(width: 5in, text(size: caption-fontsize, cap))
+  if caption-width == none {
+    caption-width = 100%
+  }
+  show figure.caption: cap => box(width: caption-width, text(size: caption-fontsize, cap))
 
   // Number equations as <CHAPTER #>.<EQ #>, and tables, images the same
   set math.equation(
