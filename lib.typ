@@ -14,9 +14,14 @@
   foot-sep: 0.3in,
 )
 
+#let blue-link(url, body) = {
+  show link: set text(fill: rgb("#0000FF"))
+  link(url, body)
+}
+
 #let text-or-link(name, site) = {
   if site != none {
-    link(site, name)
+    blue-link(site, name)
   } else {
     name
   }
@@ -24,7 +29,7 @@
 
 #let titlepage(
   title: "Your Thesis Title",
-  university-name: link("http://www.uva.nl", smallcaps[University of Amsterdam]),
+  university-name: blue-link("http://www.uva.nl", smallcaps[University of Amsterdam]),
   author: (first-name: "First name", surname: "Surname"),
   degree: "Degree Name",
   examiner: "Examiner Name",
@@ -193,7 +198,7 @@
 }
 #let abstract-page(
   title: "Your Thesis Title",
-  university-name: link("http://www.uva.nl", [UNIVERSITY OF AMSTERDAM]),
+  university-name: blue-link("http://www.uva.nl", [UNIVERSITY OF AMSTERDAM]),
   author: (first-name: "First name", surname: "Surname"),
   degree: "Degree Name",
   faculty: (name: "Faculty Name"),
@@ -414,7 +419,7 @@
   // show raw: set text(font: rawfont)
 
   // Make links blue
-  show link: set text(fill: rgb("#0000FF"))
+  //show link: set text(fill: rgb("#0000FF"))
 
   // Planning/draft text
   // Show in a different colour to main text, or hide
