@@ -69,7 +69,7 @@
 
 
 #show: thesis.with(
-  title: "Your Thesis Title",
+  title: "Your Thesis\nTitle",
   author: author,
   supervision-team: supervision-team,
   degree: degree,
