@@ -457,7 +457,7 @@
 
   declaration-of-authorship(
     author: author,
-    title: title,
+    title: title.replace("\n", " ").replace("  ", " "),
     signature: signature,
   )
 
