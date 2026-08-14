@@ -617,15 +617,17 @@
   }
 
   // Abbreviations page
-  [= Abbreviations <frontmatter>]
-  {
-    set align(center)
-    block(
-      width: 70%,
-      abbreviations,
-    )
+  if abbreviations != none {
+    [= Abbreviations <frontmatter>]
+    {
+      set align(center)
+      block(
+        width: 70%,
+        abbreviations,
+      )
+    }
+    pagebreak()
   }
-  pagebreak()
 
   // ===== Styling for main content =====
   // Set arabic numeral page numbering for main content
