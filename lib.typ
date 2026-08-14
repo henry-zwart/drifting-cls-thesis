@@ -132,6 +132,7 @@
   author: (first-name: "", surname: ""),
   title: "Your Thesis Title",
   signature: none,
+  body: none,
 ) = {
   let author-name = [#author.first-name #smallcaps(author.surname)]
   set list(marker: $square.filled.small$)
@@ -143,6 +144,27 @@
     v(1em)
   }
 
+  if body == none {
+    body = [
+      - This work was done wholly or mainly while in candidature for a research degree at the University
+        of Amsterdam.
+
+      - Where any part of this thesis has previously been submitted for a degree or any other qualification
+        at this University or any other institution, this has been clearly stated.
+
+      - Where I have consulted the published work of others, this is always clearly at-
+        tributed.
+
+      - Where I have quoted from the work of others, the source is always given. With the exception of such
+        quotations, this thesis is entirely my own work.
+
+      - I have acknowledged all main sources of help.
+
+      - Where the thesis is based on work done by myself jointly with others, I have made clear exactly
+        what was done by others and what I have contributed myself.
+    ]
+  }
+
   v(0.8fr)
   [
     = Declaration of Authorship
@@ -151,22 +173,7 @@
     I confirm that:
     #v(1em)
 
-    - This work was done wholly or mainly while in candidature for a research degree at the University
-      of Amsterdam.
-
-    - Where any part of this thesis has previously been submitted for a degree or any other qualification
-      at this University or any other institution, this has been clearly stated.
-
-    - Where I have consulted the published work of others, this is always clearly at-
-      tributed.
-
-    - Where I have quoted from the work of others, the source is always given. With the exception of such
-      quotations, this thesis is entirely my own work.
-
-    - I have acknowledged all main sources of help.
-
-    - Where the thesis is based on work done by myself jointly with others, I have made clear exactly
-      what was done by others and what I have contributed myself.
+    #body
 
     #v(3em)
 
@@ -375,6 +382,7 @@
   faculty: (name: ""),
   quotation: none,
   abstract: none,
+  declaration-of-authorship-body: none,
   acknowledgements: none,
   abbreviations: none,
   signature: none,
@@ -459,6 +467,7 @@
     author: author,
     title: title.replace("\n", " ").replace("  ", " "),
     signature: signature,
+    body: declaration-of-authorship-body,
   )
 
   if quotation != none {
