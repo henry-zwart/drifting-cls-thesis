@@ -294,6 +294,26 @@
   pagebreak()
 }
 
+#let initial-section(title, body) = {
+  set text(size: 11pt)
+  set align(left)
+  set par(justify: true)
+
+  {
+    show heading: it => {
+      set text(size: 20pt, weight: "regular")
+      set align(center)
+      it
+      v(1em)
+    }
+    [= #title]
+  }
+
+  body
+
+  pagebreak()
+}
+
 
 // TODO: Link colours, entry spacing
 #let main-contents-page() = {
@@ -396,6 +416,7 @@
   hide_plan: false,
   plan_font_fill: luma(140),
   additional-frontmatter: (),
+  pre-chapter-content: (),
   outline-tables: true,
   outline-algorithms: false,
   body,
@@ -627,6 +648,10 @@
       )
     }
     pagebreak()
+  }
+
+  for section in pre-chapter-content {
+    initial-section(section.title, section.body)
   }
 
   // ===== Styling for main content =====
