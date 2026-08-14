@@ -294,22 +294,19 @@
   pagebreak()
 }
 
-#let initial-section(title, body) = {
+#let initial-section(section) = {
   set text(size: 11pt)
   set align(left)
   set par(justify: true)
 
-  {
-    show heading: it => {
-      set text(size: 20pt, weight: "regular")
-      set align(center)
-      it
-      v(1em)
-    }
-    [= #title]
+  show heading: it => {
+    set text(size: 20pt, weight: "regular")
+    set align(center)
+    it
+    v(1em)
   }
 
-  body
+  section
 
   pagebreak()
 }
@@ -651,7 +648,7 @@
   }
 
   for section in pre-chapter-content {
-    initial-section(section.title, section.body)
+    initial-section(section)
   }
 
   // ===== Styling for main content =====
