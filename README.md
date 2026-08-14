@@ -1,5 +1,7 @@
 # drifting-cls-thesis
 
+[![DOI](https://zenodo.org/badge/1069223098.svg)](https://doi.org/10.5281/zenodo.21933473)
+
 A Typst template for Computational Science Master's theses at the University of Amsterdam.
 
 ## Dependencies
